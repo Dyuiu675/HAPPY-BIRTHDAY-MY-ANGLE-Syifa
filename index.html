@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Untukmu 🌸</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    height:100vh;
+    background:
+      radial-gradient(circle at top,#1b1b2f,#000),
+      linear-gradient(#000,#12002f);
+    font-family:'Segoe UI',sans-serif;
+    color:white;
+    overflow:hidden;
+}
+
+/* ===== PARTICLES ===== */
+canvas{
+    position:fixed;
+    inset:0;
+    z-index:0;
+}
+
+/* ===== UI ===== */
+.ui{
+    position:relative;
+    z-index:3;
+    text-align:center;
+    padding-top:40px;
+}
+
+h2{font-weight:500}
+
+/* ===== BUTTON ===== */
+.btn{
+    padding:14px 36px;
+    border:none;
+    border-radius:30px;
+    font-size:16px;
+    color:white;
+    cursor:pointer;
+    background:linear-gradient(45deg,#ff7eb3,#ff758c);
+    box-shadow:0 0 25px rgba(255,120,180,.9);
+}
+
+/* ===== GARDEN ===== */
+#garden{
+    display:none;
+    position:relative;
+    width:100%;
+    height:380px;
+    margin-top:20px;
+}
+
+/* ===== STEM ===== */
+.stem{
+    position:absolute;
+    bottom:0;
+    width:6px;
+    height:0;
+    background:linear-gradient(#7ffcff,#2aa7ff);
+    border-radius:4px;
+    animation:grow 2.5s forwards;
+    filter:drop-shadow(0 0 6px #7ffcff);
+}
+
+/* ===== FLOWER ===== */
+.flower{
+    position:absolute;
+    width:200px;
+    height:300px;
+    transform:scale(0);
+    animation:bloom 3s forwards;
+    filter:drop-shadow(0 0 18px #ff7eb3);
+}
+
+.f1{left:50%;top:60px;animation-delay:2.4s}
+.f2{left:25%;top:110px;animation-delay:3s}
+.f3{left:75%;top:100px;animation-delay:3.6s}
+
+@keyframes grow{to{height:260px}}
+@keyframes bloom{
+    70%{transform:scale(1.05)}
+    100%{transform:scale(1)}
+}
+
+/* ===== LETTER ===== */
+#letter{
+    display:none;
+    position:fixed;
+    bottom:60px;
+    right:30px;
+    font-size:46px;
+    cursor:pointer;
+    animation:pulse 1.6s infinite;
+    z-index:5;
+}
+@keyframes pulse{50%{transform:scale(1.25)}}
+
+/* ===== MODAL ===== */
+#modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.85);
+    z-index:10;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.box{
+    background:rgba(20,0,40,.95);
+    padding:22px;
+    border-radius:20px;
+    width:320px;
+    box-shadow:0 0 40px #ff7eb3;
+}
+.box img{
+    width:100%;
+    border-radius:14px;
+    margin-bottom:12px;
+}
+.typing{
+    border-left:2px solid #ff7eb3;
+    padding-left:10px;
+    text-align:left;
+    white-space:pre-line;
+    min-height:110px;
+}
+
+/* MOBILE */
+@media(max-width:500px){
+    .flower{width:160px;height:240px}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="fx"></canvas>
+<audio id="music" src="music.mp3" loop></audio>
+
+<div class="ui">
+    <h2>🌸 Ada sesuatu untukmu</h2>
+    <button class="btn" onclick="start()">Klik Perlahan</button>
+
+    <div id="garden">
+        <div class="stem" style="left:50%"></div>
+        <div class="stem" style="left:25%"></div>
+        <div class="stem" style="left:75%"></div>
+
+        <!-- FLOWER 1 -->
+        <svg class="flower f1" viewBox="0 0 200 300">
+            <defs>
+                <radialGradient id="petalPink">
+                    <stop offset="0%" stop-color="#ffd6e8"/>
+                    <stop offset="100%" stop-color="#ff7eb3"/>
+                </radialGradient>
+            </defs>
+            <rect x="96" y="90" width="8" height="150" rx="4" fill="#5fd3ff"/>
+            <g transform="translate(100 90)">
+                <path d="M0,-45 C25,-70 50,-20 0,0 C-50,-20 -25,-70 0,-45Z" fill="url(#petalPink)" opacity=".9"/>
+                <path d="M45,0 C70,-25 20,-50 0,0 C25,50 70,25 45,0Z" fill="url(#petalPink)" opacity=".8"/>
+                <path d="M0,45 C25,70 -25,70 0,45 C-50,25 -25,0 0,45Z" fill="url(#petalPink)" opacity=".85"/>
+                <path d="M-45,0 C-70,25 -20,50 0,0 C-25,-50 -70,-25 -45,0Z" fill="url(#petalPink)" opacity=".8"/>
+            </g>
+            <circle cx="100" cy="90" r="10" fill="#ffe066"/>
+            <path d="M60 210 C20 230 30 270 90 260" fill="#ff8fcf" opacity=".4"/>
+            <path d="M140 210 C180 230 170 270 110 260" fill="#ff8fcf" opacity=".4"/>
+        </svg>
+
+        <!-- FLOWER 2 -->
+        <svg class="flower f2" viewBox="0 0 200 300">
+            <use href="#"></use>
+            <circle cx="100" cy="100" r="12" fill="#ffd166"/>
+        </svg>
+
+        <!-- FLOWER 3 -->
+        <svg class="flower f3" viewBox="0 0 200 300">
+            <circle cx="100" cy="100" r="12" fill="#ffd166"/>
+        </svg>
+    </div>
+</div>
+
+<div id="letter" onclick="openMsg()">💌</div>
+
+<div id="modal">
+    <div class="box">
+        <img src="foto.jpg">
+        <div class="typing" id="text"></div>
+        <button class="btn" onclick="closeMsg()">Tutup</button>
+    </div>
+</div>
+
+<script>
+/* START */
+function start(){
+    document.querySelector(".btn").style.display="none";
+    document.getElementById("garden").style.display="block";
+
+    const m=document.getElementById("music");
+    m.volume=0;
+    m.play();
+    let v=0;
+    let fade=setInterval(()=>{
+        if(v>=1) clearInterval(fade);
+        m.volume=v+=0.05;
+    },200);
+
+    setTimeout(()=>document.getElementById("letter").style.display="block",6000);
+}
+
+/* MESSAGE */
+const msg=`Aku tahu aku tidak sempurna.
+Aku tahu aku sering salah.
+
+Tapi perasaan ini,
+aku simpan dengan sungguh-sungguh.
+
+Terima kasih sudah membaca 🌷`;
+
+let i=0;
+function openMsg(){
+    document.getElementById("modal").style.display="flex";
+    const t=document.getElementById("text");
+    t.innerHTML="";
+    i=0;
+    let type=setInterval(()=>{
+        t.innerHTML+=msg[i];
+        i++;
+        if(i>=msg.length) clearInterval(type);
+    },40);
+}
+function closeMsg(){
+    document.getElementById("modal").style.display="none";
+}
+
+/* PARTICLES */
+const c=document.getElementById("fx");
+const ctx=c.getContext("2d");
+c.width=innerWidth;
+c.height=innerHeight;
+let p=[];
+for(let i=0;i<100;i++){
+    p.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*2+1,s:Math.random()+.3});
+}
+function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    ctx.fillStyle="rgba(255,200,255,.8)";
+    p.forEach(e=>{
+        ctx.beginPath();
+        ctx.arc(e.x,e.y,e.r,0,Math.PI*2);
+        ctx.fill();
+        e.y-=e.s;
+        if(e.y<0)e.y=c.height;
+    });
+    requestAnimationFrame(draw);
+}
+draw();
+</script>
+
+</body>
+</html>
